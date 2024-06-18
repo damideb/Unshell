@@ -23,9 +23,9 @@ export default function Home() {
 
   const {data, isLoading}=  useGetPost(pageNumber)
   
-  const handleSelectChange = (e) => {
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     window.scrollTo({top:0, behavior:"smooth"})  
-    setPageNumber(e.target.value);
+    setPageNumber(Number(e.target.value));
   };
 
     
@@ -50,7 +50,7 @@ export default function Home() {
         }
       </div>
 
-      <div className='flex items-center w-[70%]  justify-evenly' >
+      <div className='flex items-center w-[100%] justify-center  sm:justify-evenly' >
         <div>
           <select onChange={handleSelectChange} className='border-2 border-[#49243E] outline-none w-2em rounded p-2'>
             {new Array(10).fill('-').map((_, index)=>{

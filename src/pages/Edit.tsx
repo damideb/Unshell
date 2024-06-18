@@ -2,10 +2,14 @@ import { useGetId, useUpdatePost } from "../queries/queryHook"
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react";
 import { Posts } from "../types";
+import { toast } from "react-toastify";
 
 export default function Edit() {
 
-  const [post, setPost] = useState<Posts | undefined>()
+  const [post, setPost] = useState<Posts>(
+    {id:'',userId: '',
+    title: '',
+    body: '' })
 
   type Params = {
     id: string;
@@ -22,18 +26,20 @@ export default function Edit() {
     userId:post?.userId
    }
 
-  const {mutate} = useUpdatePost(post, id)
+   const onSuccess =()=>{
+    toast.success('Post Updated Succesfully')
+  }
+
+  const {mutate} = useUpdatePost(post, id, onSuccess)
 
 
   useEffect(()=>{
-
-    setPost(data)
-    
+    setPost(data)  
   },[data])
  
 
 
-  const handleChange =(e: React.ChangeEvent<HTMLInputElement>)=>{
+  const handleChange =(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>)=>{
     const {name, value} = e.target
     const update = {  ...post, [name]:value}
     setPost(update)
@@ -61,17 +67,17 @@ export default function Edit() {
 
       <div className="m-5 ">
         <div className='flex  mb-2'>
-            <h2 className='font-bold text-[1.1rem] basis-[10%]'>UserId</h2>
+            <h2 className='font-bold text-[1.1rem] basis-[20%] md:basis-[10%]'>UserId</h2>
             <h2 className='text-[0.9rem]'>{data?.id}</h2>
         </div>
 
         <div className='flex  mb-2'>
-            <h2 className='font-bold text-[1.1rem] basis-[10%]'>Post title</h2>
+            <h2 className='font-bold text-[1.1rem] basis-[20%] md:basis-[10%]'>Post Title</h2>
             <h2 className='text-[0.9rem]'>{data?.title}</h2>
         </div>
 
         <div className='flex  mb-2'>
-            <h2 className='font-bold text-[1.1rem] basis-[10%]'>Post</h2>
+            <h2 className='font-bold text-[1.1rem] basis-[30%] md:basis-[10%]'>Post</h2>
             <h2 className='text-[0.9rem]'>{data?.body}</h2>
         </div>
       </div>
@@ -81,20 +87,20 @@ export default function Edit() {
 
         <div className="mb-[1em]">
          <label htmlFor="id" className="p-2 block font-bold">UserId</label> 
-         <input className="w-[50%] p-2 text-black" value={post?.id ||''} name="id" id="id" onChange={handleChange}/>
+         <input className=" w-[80%] sm:w-[50%] p-2 text-black" value={post?.id ||''} name="id" id="id" onChange={handleChange}/>
         </div>
 
      
         <div className="mb-[1em]">
          <label className="p-2 block font-bold" htmlFor="title">Post Title</label> 
-         <input className="w-[50%] p-2 text-black" value={post?.title ||''} name="title" id="title" onChange={handleChange}/>
+         <input className="w-[80%] sm:w-[50%] p-2 text-black" value={post?.title ||''} name="title" id="title" onChange={handleChange}/>
         </div>
 
         <div className="mb-[1em]">
          <label className="p-2 block font-bold" htmlFor="post">Post</label> 
-         <textarea  className="w-[50%] p-2 text-black" value={post?.body ||''} name="body" id="post" onChange={handleChange}/>
+         <textarea  className=" w-[80%] sm:w-[50%] h-[10em] p-2 text-black" value={post?.body ||''} name="body" id="post" onChange={handleChange}/>
         </div>
-        <button  onClick={handleSubmit} className='border-[#704264] w-[50%] mx-auto border-2 p-2 rounded disabled:cursor-not-allowed' disabled={isDataChanged() || isLoading }>Submit</button>
+        <button  onClick={handleSubmit} className='border-[#704264] w-[80%] sm:w-[50%] mx-auto border-2 p-2 rounded disabled:cursor-not-allowed' disabled={isDataChanged() || isLoading }>Submit</button>
         </div>
     </div>
   )

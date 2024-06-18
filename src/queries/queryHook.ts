@@ -64,16 +64,15 @@ const putPost = async(post:Posts)=>{
    
 }
 
-export function useUpdatePost(post:Posts, id:string){
+export function useUpdatePost(post:Posts, id:string,  onSuccess:()=>void){
     const queryClient = useQueryClient();
     return useMutation({
       mutationFn: ()=>putPost(post), 
     
       onMutate: (newPostInfo: Posts) => {
-        queryClient.setQueryData(["post", id], () => newPostInfo  
-       
-      );    
+        queryClient.setQueryData(["post", id], () => newPostInfo  );    
       },
+      onSuccess
      
     });
   
