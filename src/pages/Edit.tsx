@@ -32,10 +32,11 @@ export default function Edit() {
 
   const {mutate} = useUpdatePost(post, id, onSuccess)
 
+  const result = data as Posts
 
   useEffect(()=>{
-    setPost(data)  
-  },[data])
+    setPost(result)  
+  },[result])
  
 
 
